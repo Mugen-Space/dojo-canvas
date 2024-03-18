@@ -35,8 +35,8 @@ function App() {
   const position = useComponentValue(Position, entityId);
   const moves = useComponentValue(Moves, entityId);
 
-  const changeToAddress = (address: String) => {
-    return "0x" + address.toString(16).padStart(2, "0");
+  const changeToAddress = (address: string) => {
+    return shortString.decodeShortString(address);
   };
 
   //   const decodeColor = (encodedNumber: BigInt) => {
@@ -139,10 +139,7 @@ function App() {
         <>
           {games.map((game: any) => (
             <div key={game.game_id}>
-              <CanvasCard
-                id={game.game_id}
-                owner_id={changeToAddress(game.host)}
-              />
+              <CanvasCard id={game.game_id} />
             </div>
           ))}
         </>

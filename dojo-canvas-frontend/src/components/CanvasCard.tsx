@@ -7,10 +7,9 @@ import CurrentLockStatus from "./LockingStatus";
 
 interface CanvasCardProps {
   id: number;
-  owner_id: string;
 }
 
-const CanvasCard = ({ id, owner_id }: CanvasCardProps) => {
+const CanvasCard = ({ id }: CanvasCardProps) => {
   const {
     setup: {
       systemCalls: { spawn, move, create },
@@ -45,7 +44,6 @@ const CanvasCard = ({ id, owner_id }: CanvasCardProps) => {
       <div className="bg-white shadow-md rounded-lg overflow-hidden text-black my-2">
         <div onClick={handleProjectClick} className="p-4">
           <p>Canvas ID: {id}</p>
-          <p>Owner ID: {owner_id}</p>
         </div>
       </div>
       <div
@@ -59,9 +57,6 @@ const CanvasCard = ({ id, owner_id }: CanvasCardProps) => {
           <h2 className="text-xl font-medium mb-4">Canvas Details</h2>
           <p>
             <b>Canvas ID:</b> {id}
-          </p>
-          <p>
-            <b>Owner:</b> {owner_id}
           </p>
 
           <CurrentLockStatus locks={locks[0]} />
