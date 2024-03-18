@@ -8,12 +8,12 @@ import { tile } from "@latticexyz/utils";
 export type IWorld = Awaited<ReturnType<typeof setupWorld>>;
 
 export interface MoveProps {
-  account: Account | AccountInterface;
+  account: any;
   direction: Direction;
 }
 
 export interface DrawProps {
-  account: Account | AccountInterface;
+  account: any;
   game_id: number;
   tile_id: number;
   colour: string;
@@ -23,7 +23,7 @@ export async function setupWorld(provider: DojoProvider) {
   function actions() {
     const contract_name = "actions";
 
-    const spawn = async ({ account }: { account: AccountInterface }) => {
+    const spawn = async ({ account }: { account: any }) => {
       try {
         return await provider.execute(account, contract_name, "spawn", []);
       } catch (error) {
@@ -43,7 +43,7 @@ export async function setupWorld(provider: DojoProvider) {
       }
     };
 
-    const create = async ({ account }: { account: AccountInterface }) => {
+    const create = async ({ account }: { account: any }) => {
       try {
         return await provider.execute(account, contract_name, "create", [
           provider.getWorldAddress(),
