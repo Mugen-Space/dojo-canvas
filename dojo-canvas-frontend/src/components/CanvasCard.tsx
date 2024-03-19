@@ -59,7 +59,7 @@ const CanvasCard = ({ id }: CanvasCardProps) => {
             <b>Canvas ID:</b> {id}
           </p>
 
-          <CurrentLockStatus locks={locks[0]} />
+          <CurrentLockStatus game_id={id} />
           <hr className="my-4" />
           <Canvas gameId={id} n={10} />
           <button

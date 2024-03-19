@@ -1,19 +1,47 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import React from "react";
+import { useDojo } from "../dojo/useDojo";
+import { HasValue, getComponentValue } from "@dojoengine/recs";
+import { useComponentValue, useEntityQuery } from "@dojoengine/react";
 
 interface LockData {
-  unlock_time: number; // Assuming unlock_time is a Unix timestamp in milliseconds
+  game_id: number; // Assuming unlock_time is a Unix timestamp in milliseconds
 }
 
-const CurrentLockStatus = ({ locks }: { locks: LockData }) => {
+const CurrentLockStatus = ({ game_id }: { game_id: number }) => {
+  const {
+    setup: {
+      systemCalls: { spawn, move, create },
+      clientComponents: { Position, Moves, Game, Tile, Lock },
+      toriiClient,
+    },
+    account,
+  } = useDojo();
   const [currentTime, setCurrentTime] = useState(Math.floor(Date.now() / 1000)); // Get current Unix timestamp
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setCurrentTime(Math.floor(Date.now() / 1000));
-    }, 1000); // Update current time every second
+  const lockEntities: any = useEntityQuery([
+    HasValue(Lock, {
+      game_id: game_id,
+      player: BigInt(account.account.address),
+    }),
+  ]);
 
-    return () => clearInterval(intervalId); // Cleanup on unmount
+  const locks = useMemo(
+    () =>
+      lockEntities
+        .map((id: any) => getComponentValue(Lock, id))
+        .sort((a: any, b: any) => a.game_id - b.game_id),
+    [lockEntities, Lock]
+  );
+
+  useEffect(() => {
+    // const intervalId = setInterval(() => {
+    //   console.log("called");
+    //   setCurrentTime(Math.floor(Date.now() / 1000));
+    // }, 1000); // Update current time every second
+    setCurrentTime(Math.floor(Date.now() / 1000));
+    console.log(locks[0]?.unlock_time);
+    // return () => clearInterval(intervalId); // Cleanup on unmount
   }, [locks]);
 
   const firstLock = locks; // Assuming locks[0] contains the relevant unlock time
@@ -22,7 +50,7 @@ const CurrentLockStatus = ({ locks }: { locks: LockData }) => {
     return <p>No lock information available.</p>;
   }
 
-  const timeRemaining = firstLock.unlock_time - currentTime;
+  const timeRemaining = firstLock[0]?.unlock_time - currentTime;
 
   if (timeRemaining > 0) {
     const days = Math.floor(timeRemaining / (60 * 60 * 24));
