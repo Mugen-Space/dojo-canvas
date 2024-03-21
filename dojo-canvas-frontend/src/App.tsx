@@ -89,7 +89,7 @@ function App() {
   }, [clipboardStatus.message]);
 
   return (
-    <>
+    <div className="flex items-center justify-center flex-col h-screen w-screen bg-slate-500 text-white">
       <button onClick={account?.create}>
         {account?.isDeploying ? "deploying burner" : "create burner"}
       </button>
@@ -114,7 +114,7 @@ function App() {
         </select>
       </div>
 
-      <div className="card">
+      <div>
         <button onClick={() => create(account.account)}>Create Game</button>
       </div>
       {games.length > 0 && (
@@ -126,7 +126,7 @@ function App() {
           ))}
         </>
       )}
-    </>
+    </div>
   );
 }
 

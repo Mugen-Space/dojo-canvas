@@ -40,7 +40,7 @@ const CanvasCard = ({ id }: CanvasCardProps) => {
     [lockEntities, Lock]
   );
   return (
-    <>
+    <div className="">
       <div className="bg-white shadow-md rounded-lg overflow-hidden text-black my-2">
         <div onClick={handleProjectClick} className="p-4">
           <p>Canvas ID: {id}</p>
@@ -71,7 +71,7 @@ const CanvasCard = ({ id }: CanvasCardProps) => {
           </button>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
