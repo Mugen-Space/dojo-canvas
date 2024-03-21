@@ -3,7 +3,6 @@ import { Entity, Has } from "@dojoengine/recs";
 import { HasValue, getComponentValue } from "@dojoengine/recs";
 
 import { useEffect, useState, useMemo } from "react";
-import "./App.css";
 import { Direction } from "./utils";
 import { getEntityIdFromKeys } from "@dojoengine/utils";
 import { useDojo } from "./dojo/useDojo";
@@ -94,21 +93,12 @@ function App() {
       <button onClick={account?.create}>
         {account?.isDeploying ? "deploying burner" : "create burner"}
       </button>
-      {account && account?.list().length > 0 && (
-        <button onClick={async () => await account?.copyToClipboard()}>
-          Save Burners to Clipboard
-        </button>
-      )}
+
       <button onClick={handleRestoreBurners}>
         Restore Burners from Clipboard
       </button>
-      {clipboardStatus.message && (
-        <div className={clipboardStatus.isError ? "error" : "success"}>
-          {clipboardStatus.message}
-        </div>
-      )}
 
-      <div className="card">
+      <div className="">
         select signer:{" "}
         <select
           value={account ? account.account.address : ""}
@@ -122,14 +112,6 @@ function App() {
             );
           })}
         </select>
-        <div>
-          <button onClick={() => account.clear()}>Clear burners</button>
-          <p>
-            You will need to Authorise the contracts before you can use a
-            burner. See readme. or basically just run the sh scripts/default.sh
-            it's present in the smart contract folder.
-          </p>
-        </div>
       </div>
 
       <div className="card">
@@ -144,19 +126,6 @@ function App() {
           ))}
         </>
       )}
-      {/* {tiles.length > 0 && (
-        <>
-          {tiles.map((tile: any) => (
-            <>
-              <div className="text-3xl font-bold underline text-red-600">
-                {tile.game_id}
-              </div>
-              <div>{tile.tile_id}</div>
-              <div>{shortString.decodeShortString(tile.colour)}</div>
-            </>
-          ))}
-        </>
-      )} */}
     </>
   );
 }
