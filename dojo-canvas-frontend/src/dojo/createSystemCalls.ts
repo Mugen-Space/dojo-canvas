@@ -156,10 +156,36 @@ export function createSystemCalls(
     }
   };
 
+  const addPlayer = async (
+    account: AccountInterface,
+    player_ip: string,
+    name: string
+  ) => {
+    try {
+      const { transaction_hash } = await client.actions.addPlayer({
+        account,
+        player_ip,
+        name,
+      });
+
+      setComponentsFromEvents(
+        contractComponents,
+        getEvents(
+          await account.waitForTransaction(transaction_hash, {
+            retryInterval: 100,
+          })
+        )
+      );
+    } catch (e) {
+      console.log(e);
+    } finally {
+    }
+  };
   return {
     spawn,
     move,
     create,
     draw,
+    addPlayer,
   };
 }

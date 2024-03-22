@@ -9,16 +9,24 @@ import { useDojo } from "./dojo/useDojo";
 import CanvasCard from "./components/CanvasCard";
 import { shortString } from "starknet";
 import Canvas from "./components/Canvas";
+import useIP from "./hooks/useIP";
 
 function App() {
   const {
     setup: {
-      systemCalls: { spawn, move, create },
-      clientComponents: { Position, Moves, Game, Tile },
+      systemCalls: { spawn, move, create, addPlayer },
+      clientComponents: { Position, Moves, Game, Tile, Player },
       toriiClient,
     },
     account,
   } = useDojo();
+  const { ip, loading } = useIP();
+  useEffect(() => {
+    if (!loading && ip) {
+      console.log(ip);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ip, loading]);
 
   const [clipboardStatus, setClipboardStatus] = useState({
     message: "",

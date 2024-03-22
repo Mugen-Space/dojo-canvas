@@ -5,6 +5,8 @@ use dojo_starter::models::game::{Game};
 use dojo_starter::models::tile::{Tile};
 use dojo_starter::models::lock::{Lock};
 
+
+use dojo_starter::models::player::{Player};
 #[derive(Drop)]
 struct Store {
     world: IWorldDispatcher
@@ -32,5 +34,11 @@ impl StoreImpl of StoreTrait {
     }
     fn set_lock(ref self: Store, lock: Lock) {
         set!(self.world, (lock));
+    }
+    fn get_player(ref self: Store, player_ip: felt252, player: ContractAddress) -> Player {
+        get!(self.world, (player_ip, player), (Player))
+    }
+    fn set_player(ref self: Store, player: Player) {
+        set!(self.world, (player));
     }
 }
