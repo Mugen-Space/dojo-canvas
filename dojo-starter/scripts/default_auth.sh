@@ -4,9 +4,9 @@ pushd $(dirname "$0")/..
 
 export RPC_URL="https://api.cartridge.gg/x/dojo-canvas/katana";
 
-export WORLD_ADDRESS=$(cat ./target/staging/manifest.json | jq -r '.world.address')
+export WORLD_ADDRESS=$(cat ./target/dev/manifest.json | jq -r '.world.address')
 
-export ACTIONS_ADDRESS=$(cat ./target/staging/manifest.json | jq -r '.contracts[] | select(.name == "dojo_starter::systems::actions::actions" ).address')
+export ACTIONS_ADDRESS=$(cat ./target/dev/manifest.json | jq -r '.contracts[] | select(.name == "dojo_starter::systems::actions::actions" ).address')
 
 echo "---------------------------------------------------------------------------"
 echo world : $WORLD_ADDRESS 
