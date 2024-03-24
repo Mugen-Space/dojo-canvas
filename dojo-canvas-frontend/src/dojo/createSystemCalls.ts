@@ -176,6 +176,7 @@ export function createSystemCalls(
           })
         )
       );
+      console.log("players adding call made successfully");
     } catch (e) {
       console.log(e);
     } finally {

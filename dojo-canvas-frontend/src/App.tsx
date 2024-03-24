@@ -10,6 +10,7 @@ import CanvasCard from "./components/CanvasCard";
 import { shortString } from "starknet";
 import Canvas from "./components/Canvas";
 import useIP from "./hooks/useIP";
+import { Navbar } from "./navbar";
 
 function App() {
   const {
@@ -29,7 +30,7 @@ function App() {
   const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(event.target.value);
   };
-
+  useEffect(() => {}, []);
   const handleAddContact = async () => {
     setIsLoading(true);
     // Replace with your actual function call to add contact with username
@@ -39,7 +40,6 @@ function App() {
       await addPlayer(account?.account, ipHere, username);
       setModalShow(false);
       // const data = await response.json();
-      console.log("Contact added:", 12); // Handle success response
     } catch (error) {
       console.error("Error adding contact:", error); // Handle errors
     } finally {
@@ -49,18 +49,16 @@ function App() {
   useEffect(() => {
     if (!loading && ip) {
       setIpHere(String(ip));
-      console.log(ip);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ip, loading]);
-  console.log(ipHere);
   const [clipboardStatus, setClipboardStatus] = useState({
     message: "",
     isError: false,
   });
 
   // entity id we are syncing
-  const entityId = getEntityIdFromKeys([
+  const entityIdx = getEntityIdFromKeys([
     BigInt(account?.account.address),
   ]) as Entity;
 
@@ -81,18 +79,11 @@ function App() {
     }
   };
   const gameEntities: any = useEntityQuery([HasValue(Game, { seed: 1 })]);
-  const tileEntities: any = useEntityQuery([HasValue(Tile, { game_id: 0 })]);
+  // const tileEntities: any = useEntityQuery([HasValue(Tile, { game_id: 0 })]);
   const playerEntities: any = useEntityQuery([
     HasValue(Player, { player_ip: BigInt(ipHere) }),
   ]);
-  const tiles = useMemo(
-    () =>
-      tileEntities
-        .map((id: any) => getComponentValue(Tile, id))
-        .sort((a: any, b: any) => b.id - a.id)
-        .filter((game: any) => game.host !== 0n),
-    [tileEntities, Tile]
-  );
+
   const games = useMemo(
     () =>
       gameEntities
@@ -110,7 +101,6 @@ function App() {
         .filter((game: any) => game.player !== 0n),
     [playerEntities, Player]
   );
-  console.log("players->", players);
   useEffect(() => {
     if (clipboardStatus.message) {
       const timer = setTimeout(() => {
@@ -121,82 +111,72 @@ function App() {
     }
   }, [clipboardStatus.message]);
 
+  useEffect(() => {
+    if (players.length) {
+      setUsername(shortString.decodeShortString(players[0]?.name));
+      setModalShow(false);
+    }
+  }, [players]);
   return (
-    <div className="flex items-center justify-center w-full h-full">
-      {/* <button onClick={account?.create}>
-        {account?.isDeploying ? "deploying burner" : "create burner"}
-      </button>
-
-      <button onClick={handleRestoreBurners}>
-        Restore Burners from Clipboard
-      </button>
-
-      <div className="">
-        select signer:{" "}
-        <select
-          value={account ? account.account.address : ""}
-          onChange={(e) => account.select(e.target.value)}
-        >
-          {account?.list().map((account, index) => {
-            return (
-              <option value={account.address} key={index}>
-                {account.address}
-              </option>
-            );
-          })}
-        </select>
-      </div> */}
-      <div>
-        <div>
-          <button onClick={() => create(account.account)}>Create Game</button>
-          <div>{username}</div>
-        </div>
-        {games.length > 0 && (
-          <>
-            {games.map((game: any) => (
-              <div key={game.game_id}>
-                <CanvasCard id={game.game_id} />
-              </div>
-            ))}
-          </>
-        )}
-      </div>
-      <div
-        className={`fixed z-50 inset-0 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-50 transition-opacity duration-300 ease-in-out ${
-          modalShow
-            ? "opacity-100 pointer-events-auto"
-            : "opacity-0 pointer-events-none"
-        }`}
-      >
-        <div className="bg-red-200 rounded-lg shadow-lg w-full max-w-3xl h-11/12 p-6 text-black">
-          <h2 className="text-xl font-medium mb-4">Add Account Details</h2>
-          <div className="mb-4">
-            <label
-              htmlFor="username"
-              className="block text-sm font-medium mb-2"
+    <>
+      <Navbar username={username} />
+      <div className="flex justify-center w-screen h-screen bg-fuchsia-400">
+        <div className="m-10 w-full">
+          <div className="my-2">
+            <button
+              className="create-game-button w-full py-2 px-4 bg-blue-500 text-white font-bold rounded-md hover:bg-blue-700"
+              onClick={() => create(account.account)}
             >
-              Username:
-            </label>
-            <input
-              id="username"
-              type="text"
-              value={username}
-              onChange={handleUsernameChange}
-              className="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-1 focus:ring-indigo-500"
-            />
+              Create Game
+            </button>
           </div>
-          <button
-            type="button"
-            onClick={handleAddContact}
-            className={`text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-opacity-50 focus:outline-none rounded-lg px-5 py-2 text-center mt-4 transform transition duration-150 ease-in-out ${
-              isLoading ? "bg-gray-400 cursor-not-allowed" : ""
-            }`}
-          >
-            {isLoading ? "Adding Contact..." : "Add Contact"}
-          </button>
+          {games.length > 0 && (
+            <div className="canvas-grid grid grid-cols-auto sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {games.map((game: any) => (
+                <div key={game.game_id}>
+                  <CanvasCard id={game.game_id} />
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+        <div
+          className={`fixed z-50 inset-0 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-50 transition-opacity duration-300 ease-in-out ${
+            modalShow
+              ? "opacity-100 pointer-events-auto"
+              : "opacity-0 pointer-events-none"
+          }`}
+        >
+          <div className="bg-red-200 rounded-lg shadow-lg w-full max-w-3xl h-11/12 p-6 text-black">
+            <h2 className="text-xl font-medium mb-4">Add Account Details</h2>
+            <div className="mb-4">
+              <label
+                htmlFor="username"
+                className="block text-sm font-medium mb-2"
+              >
+                Username:
+              </label>
+              <input
+                id="username"
+                type="text"
+                value={username}
+                onChange={handleUsernameChange}
+                className="w-full px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+              />
+            </div>
+            <button
+              type="button"
+              onClick={handleAddContact}
+              className={`text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-opacity-50 focus:outline-none rounded-lg px-5 py-2 text-center mt-4 transform transition duration-150 ease-in-out ${
+                isLoading ? "bg-gray-400 cursor-not-allowed" : ""
+              }`}
+            >
+              {isLoading ? "Adding Contact..." : "Add Contact"}
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

@@ -159,10 +159,8 @@ mod actions {
         ) {
             let mut store: Store = StoreTrait::new(world);
             let caller = get_caller_address();
-            let mut player = store.get_player(player_ip, player: caller);
-            if (player.player.is_zero()) {
-                player = PlayerTrait::new(player_ip, player: caller, name: name);
-            }
+            let mut player = PlayerTrait::new(player_ip, player: caller, name: name);
+            store.set_player(player);
         }
     }
 }
