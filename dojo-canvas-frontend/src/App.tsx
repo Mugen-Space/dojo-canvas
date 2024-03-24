@@ -14,6 +14,7 @@ import { Navbar } from "./navbar";
 import { FeedbackContext, Feedback } from "./hooks/useFeedback";
 import FeedbackModal from "./components/FeedbackModal";
 import { clear } from "console";
+import Games from "./components/Games";
 const App: React.FC = () => {
   const {
     setup: {
@@ -78,40 +79,10 @@ const App: React.FC = () => {
   });
 
   // entity id we are syncing
-  const entityIdx = getEntityIdFromKeys([
-    BigInt(account?.account.address),
-  ]) as Entity;
 
-  // get current component values
-
-  const handleRestoreBurners = async () => {
-    try {
-      await account?.applyFromClipboard();
-      setClipboardStatus({
-        message: "Burners restored successfully!",
-        isError: false,
-      });
-    } catch (error) {
-      setClipboardStatus({
-        message: `Failed to restore burners from clipboard`,
-        isError: true,
-      });
-    }
-  };
-  const gameEntities: any = useEntityQuery([HasValue(Game, { seed: 1 })]);
-  // const tileEntities: any = useEntityQuery([HasValue(Tile, { game_id: 0 })]);
   const playerEntities: any = useEntityQuery([
     HasValue(Player, { player_ip: BigInt(ipHere) }),
   ]);
-
-  const games = useMemo(
-    () =>
-      gameEntities
-        .map((id: any) => getComponentValue(Game, id))
-        .sort((a: any, b: any) => b.id - a.id)
-        .filter((game: any) => game.host !== 0n),
-    [gameEntities, Game]
-  );
 
   const players = useMemo(
     () =>
@@ -152,21 +123,13 @@ const App: React.FC = () => {
         <div className="m-10 w-full">
           <div className="my-2">
             <button
-              className="create-game-button w-full py-2 px-4 bg-blue-500 text-white font-bold rounded-md hover:bg-blue-700"
+              className="create-game-button w-full py-2 px-4  bg-blue-500 text-white font-bold rounded-md hover:bg-blue-700"
               onClick={handleCreateGame}
             >
               Create Game
             </button>
           </div>
-          {games.length > 0 && (
-            <div className="canvas-grid grid grid-cols-auto sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {games.map((game: any) => (
-                <div key={game.game_id}>
-                  <CanvasCard id={game.game_id} />
-                </div>
-              ))}
-            </div>
-          )}
+          <Games />
         </div>
         <div
           className={`fixed z-50 inset-0 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-50 transition-opacity duration-300 ease-in-out ${
@@ -199,7 +162,7 @@ const App: React.FC = () => {
                 isLoading ? "bg-gray-400 cursor-not-allowed" : ""
               }`}
             >
-              {isLoading ? "Adding Contact..." : "Add Contact"}
+              {isLoading ? "Adding Username ..." : "Add Username"}
             </button>
           </div>
         </div>
