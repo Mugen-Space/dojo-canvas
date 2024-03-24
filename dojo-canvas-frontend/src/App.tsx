@@ -120,7 +120,6 @@ const App: React.FC = () => {
     <div className="w-screen min-h-screen">
       <Navbar username={username} />
       <div className="flex justify-center w-full h-full bg-fuchsia-400">
-        A
         <div className="m-3 w-full">
           <div>
             <button

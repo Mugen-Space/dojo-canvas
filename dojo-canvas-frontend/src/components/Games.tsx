@@ -25,7 +25,7 @@ const Games: React.FC = () => {
     () =>
       gameEntities
         .map((id: any) => getComponentValue(Game, id))
-        .sort((a: any, b: any) => b.id - a.id)
+        .sort((a: any, b: any) => a.id - b.id)
         .filter((game: any) => game.host !== 0n),
     [gameEntities, Game]
   );

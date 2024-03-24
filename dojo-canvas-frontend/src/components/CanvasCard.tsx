@@ -47,7 +47,7 @@ const CanvasCard = ({ id }: CanvasCardProps) => {
         </div>
       </div>
       <div
-        className={`fixed z-50 inset-0 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-50 transition-opacity duration-300 ease-in-out ${
+        className={`fixed z-2 inset-0 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-50 transition-opacity duration-300 ease-in-out ${
           canvasModal
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"
