@@ -2,7 +2,7 @@ import { useComponentValue, useEntityQuery } from "@dojoengine/react";
 import { Entity, Has } from "@dojoengine/recs";
 import { HasValue, getComponentValue } from "@dojoengine/recs";
 
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useContext } from "react";
 import { Direction } from "./utils";
 import { getEntityIdFromKeys } from "@dojoengine/utils";
 import { useDojo } from "./dojo/useDojo";
@@ -11,8 +11,10 @@ import { shortString } from "starknet";
 import Canvas from "./components/Canvas";
 import useIP from "./hooks/useIP";
 import { Navbar } from "./navbar";
-
-function App() {
+import { FeedbackContext, Feedback } from "./hooks/useFeedback";
+import FeedbackModal from "./components/FeedbackModal";
+import { clear } from "console";
+const App: React.FC = () => {
   const {
     setup: {
       systemCalls: { spawn, move, create, addPlayer },
@@ -26,6 +28,7 @@ function App() {
   const [username, setUsername] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [modalShow, setModalShow] = useState(true);
+  const { showFeedback, clearFeedback } = useContext(FeedbackContext);
 
   const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(event.target.value);
@@ -45,6 +48,23 @@ function App() {
     } finally {
       setIsLoading(false);
     }
+  };
+  const handleCreateGame = async () => {
+    var feedback: Feedback = {
+      message: "Creating your game hold tighttt!",
+      type: "loading",
+      duration: 10000,
+    };
+    showFeedback(feedback);
+
+    await create(account.account);
+    clearFeedback();
+    var feedback: Feedback = {
+      message: "Your action was successful!",
+      type: "success",
+      duration: 10000,
+    };
+    showFeedback(feedback);
   };
   useEffect(() => {
     if (!loading && ip) {
@@ -115,6 +135,14 @@ function App() {
     if (players.length) {
       setUsername(shortString.decodeShortString(players[0]?.name));
       setModalShow(false);
+      clearFeedback();
+    } else {
+      var feedback: Feedback = {
+        message: "Loading player information!!!",
+        type: "loading",
+        duration: 10000,
+      };
+      showFeedback(feedback);
     }
   }, [players]);
   return (
@@ -125,7 +153,7 @@ function App() {
           <div className="my-2">
             <button
               className="create-game-button w-full py-2 px-4 bg-blue-500 text-white font-bold rounded-md hover:bg-blue-700"
-              onClick={() => create(account.account)}
+              onClick={handleCreateGame}
             >
               Create Game
             </button>
@@ -176,8 +204,9 @@ function App() {
           </div>
         </div>
       </div>
+      <FeedbackModal />
     </>
   );
-}
+};
 
 export default App;
