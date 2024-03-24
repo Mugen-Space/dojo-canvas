@@ -43,11 +43,11 @@ const CanvasCard = ({ id }: CanvasCardProps) => {
     <div className="">
       <div className="bg-white shadow-md rounded-lg overflow-hidden text-black my-2">
         <div onClick={handleProjectClick} className="p-4">
-          <p>Canvas ID: {id}</p>
+          <Canvas gameId={id} n={10} canvasType="somethingj" />
         </div>
       </div>
       <div
-        className={`fixed z-50 inset-0 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-50 transition-opacity duration-300 ease-in-out ${
+        className={`fixed z-2 inset-0 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-50 transition-opacity duration-300 ease-in-out ${
           canvasModal
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"
@@ -61,7 +61,7 @@ const CanvasCard = ({ id }: CanvasCardProps) => {
 
           <CurrentLockStatus game_id={id} />
           <hr className="my-4" />
-          <Canvas gameId={id} n={10} />
+          <Canvas gameId={id} n={10} canvasType="paint" />
           <button
             type="button"
             onClick={handleProjectClickClose}
