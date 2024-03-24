@@ -119,7 +119,7 @@ const App: React.FC = () => {
   return (
     <div className="w-screen min-h-screen">
       <Navbar username={username} />
-      <div className="flex justify-center w-full h-full bg-fuchsia-400">
+      <div className="flex justify-center w-full min-h-screen bg-fuchsia-400">
         <div className="m-3 w-full">
           <div>
             <button
