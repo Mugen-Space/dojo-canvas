@@ -10,6 +10,9 @@ trait IActions<TContractState> {
     fn draw(
         self: @TContractState, world: IWorldDispatcher, game_id: u32, tile_id: u32, colour: felt252
     );
+    fn add_player(
+        self: @TContractState, world: IWorldDispatcher, player_ip: felt252, name: felt252
+    );
 }
 
 // dojo decorator
@@ -25,6 +28,7 @@ mod actions {
     use dojo_starter::models::tile::{Tile, TileTrait};
     use dojo_starter::models::lock::{Lock, LockTrait, LockAssert};
 
+    use dojo_starter::models::player::{Player, PlayerTrait};
 
     // declaring custom event struct
     #[event]
@@ -149,6 +153,14 @@ mod actions {
             tile.colour = colour;
             store.set_tile(tile);
             store.set_lock(lock);
+        }
+        fn add_player(
+            self: @ContractState, world: IWorldDispatcher, player_ip: felt252, name: felt252
+        ) {
+            let mut store: Store = StoreTrait::new(world);
+            let caller = get_caller_address();
+            let mut player = PlayerTrait::new(player_ip, player: caller, name: name);
+            store.set_player(player);
         }
     }
 }

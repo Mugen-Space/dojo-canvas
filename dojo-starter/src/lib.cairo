@@ -8,6 +8,7 @@ mod models {
     mod game;
     mod tile;
     mod lock;
+    mod player;
 }
 
 mod tests {

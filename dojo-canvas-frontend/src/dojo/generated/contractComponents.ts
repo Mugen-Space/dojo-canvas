@@ -45,6 +45,19 @@ export function defineContractComponents(world: World) {
         }
       );
     })(),
+    Player: (() => {
+      return defineComponent(
+        world,
+        { player_ip: RecsType.BigInt, player: RecsType.BigInt, name: RecsType.BigInt },
+        {
+          metadata: {
+            name: "Player",
+            types: ["felt252","contractaddress","felt252"],
+            customTypes: [],
+          },
+        }
+      );
+    })(),
     Position: (() => {
       return defineComponent(
         world,

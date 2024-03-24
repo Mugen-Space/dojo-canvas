@@ -18,6 +18,11 @@ export interface DrawProps {
   tile_id: number;
   colour: string;
 }
+export interface AddPlayerProps {
+  account: any;
+  player_ip: string;
+  name: string;
+}
 
 export async function setupWorld(provider: DojoProvider) {
   function actions() {
@@ -67,7 +72,19 @@ export async function setupWorld(provider: DojoProvider) {
         throw error;
       }
     };
-    return { spawn, move, create, draw };
+    const addPlayer = async ({ account, player_ip, name }: AddPlayerProps) => {
+      try {
+        return await provider.execute(account, contract_name, "add_player", [
+          provider.getWorldAddress(),
+          player_ip,
+          name,
+        ]);
+      } catch (error) {
+        console.error("Error executing create:", error);
+        throw error;
+      }
+    };
+    return { spawn, move, create, draw, addPlayer };
   }
   return {
     actions: actions(),
