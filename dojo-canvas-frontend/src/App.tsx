@@ -10,7 +10,7 @@ import CanvasCard from "./components/CanvasCard";
 import { shortString } from "starknet";
 import Canvas from "./components/Canvas";
 import useIP from "./hooks/useIP";
-import { Navbar } from "./navbar";
+import { Navbar } from "./components/navbar";
 import { FeedbackContext, Feedback } from "./hooks/useFeedback";
 import FeedbackModal from "./components/FeedbackModal";
 import { clear } from "console";
@@ -117,11 +117,12 @@ const App: React.FC = () => {
     }
   }, [players]);
   return (
-    <>
+    <div className="w-screen min-h-screen">
       <Navbar username={username} />
-      <div className="flex justify-center w-screen h-screen bg-fuchsia-400">
-        <div className="m-10 w-full">
-          <div className="my-2">
+      <div className="flex justify-center w-full h-full bg-fuchsia-400">
+        A
+        <div className="m-3 w-full">
+          <div>
             <button
               className="create-game-button w-full py-2 px-4  bg-blue-500 text-white font-bold rounded-md hover:bg-blue-700"
               onClick={handleCreateGame}
@@ -168,7 +169,7 @@ const App: React.FC = () => {
         </div>
       </div>
       <FeedbackModal />
-    </>
+    </div>
   );
 };
 

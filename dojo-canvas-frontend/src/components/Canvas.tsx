@@ -14,9 +14,10 @@ interface TileData {
 interface CanvasProps {
   gameId: number; // ID of the game to fetch tile data
   n: number; // Number of rows and columns for the grid
+  canvasType: string;
 }
 
-const Canvas = ({ gameId, n }: CanvasProps) => {
+const Canvas = ({ gameId, n, canvasType }: CanvasProps) => {
   const {
     setup: {
       systemCalls: { spawn, move, create },
@@ -28,19 +29,6 @@ const Canvas = ({ gameId, n }: CanvasProps) => {
   // const [tiles, setTiles] = useState<TileData[]>([]); // Array to store tile data
   const [isLoading, setIsLoading] = useState(false); // Flag to indicate data fetching
   const [color, setColor] = useColor("#561ecb");
-
-  // useEffect(() => {
-  //   const fetchTileData = async () => {
-  //     setIsLoading(true);
-  //     // Replace with your actual API call to fetch tile data based on gameId
-  //     const response = await fetch(/* Your API endpoint */ +gameId);
-  //     const data = await response.json();
-  //     setTiles(data.tiles || []); // Assuming data.tiles holds tile information
-  //     setIsLoading(false);
-  //   };
-
-  //   fetchTileData();
-  // }, [gameId]); // Re-fetch data on gameId change
 
   const tileEntities: any = useEntityQuery([
     HasValue(Tile, { game_id: gameId }),
@@ -72,18 +60,21 @@ const Canvas = ({ gameId, n }: CanvasProps) => {
               tileId={tile.tile_id}
               gameId={gameId}
               currentColor={color.hex}
+              canvasType={canvasType}
             />
           ))}
         </div>
       </div>
-      <div className="mt-2 border-2 border-black rounded-xl">
-        <ColorPicker
-          hideInput={["rgb", "hsv", "hex"]}
-          height={100}
-          color={color}
-          onChange={setColor}
-        />
-      </div>
+      {canvasType === "paint" && (
+        <div className="mt-2 border-2 border-black rounded-xl">
+          <ColorPicker
+            hideInput={["rgb", "hsv", "hex"]}
+            height={100}
+            color={color}
+            onChange={setColor}
+          />
+        </div>
+      )}
     </>
   );
 };

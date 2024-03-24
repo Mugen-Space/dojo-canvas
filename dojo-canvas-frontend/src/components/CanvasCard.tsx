@@ -43,7 +43,7 @@ const CanvasCard = ({ id }: CanvasCardProps) => {
     <div className="">
       <div className="bg-white shadow-md rounded-lg overflow-hidden text-black my-2">
         <div onClick={handleProjectClick} className="p-4">
-          <p>Canvas ID: {id}</p>
+          <Canvas gameId={id} n={10} canvasType="somethingj" />
         </div>
       </div>
       <div
@@ -61,7 +61,7 @@ const CanvasCard = ({ id }: CanvasCardProps) => {
 
           <CurrentLockStatus game_id={id} />
           <hr className="my-4" />
-          <Canvas gameId={id} n={10} />
+          <Canvas gameId={id} n={10} canvasType="paint" />
           <button
             type="button"
             onClick={handleProjectClickClose}

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useDojo } from "../dojo/useDojo";
+import { tile } from "@latticexyz/utils";
 
 interface TileProps {
   size: number; // Size of the tile in pixels
@@ -7,6 +8,7 @@ interface TileProps {
   tileId: number;
   gameId: number;
   currentColor: string;
+  canvasType: string;
 }
 
 const TileFront = ({
@@ -15,6 +17,7 @@ const TileFront = ({
   tileId,
   gameId,
   currentColor,
+  canvasType,
 }: TileProps) => {
   const {
     setup: {
@@ -24,10 +27,14 @@ const TileFront = ({
     },
     account,
   } = useDojo();
-
+  async function handleClick() {
+    if (canvasType === "paint") {
+      await draw(account.account, gameId, tileId, currentColor);
+    }
+  }
   return (
     <div
-      onClick={() => draw(account.account, gameId, tileId, currentColor)}
+      onClick={handleClick}
       className={`w-10 h-10  text-black border-black`}
       style={{
         backgroundColor: color,
