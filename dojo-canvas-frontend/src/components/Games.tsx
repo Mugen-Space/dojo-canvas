@@ -17,7 +17,7 @@ const Games: React.FC = () => {
   } = useDojo();
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [gamesPerPage, setGamesPerPage] = useState(6); // 2 per row * 2 rows
+  const [gamesPerPage, setGamesPerPage] = useState(8); // 2 per row * 2 rows
 
   const gameEntities: any = useEntityQuery([HasValue(Game, { seed: 1 })]);
 
@@ -52,9 +52,9 @@ const Games: React.FC = () => {
   return (
     <>
       {paginatedGames.length > 0 && (
-        <div className="canvas-grid grid grid-cols-auto sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="canvas-grid py-4 grid grid-cols-auto sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
           {paginatedGames.map((game: any) => (
-            <div key={game.game_id}>
+            <div className="aspect-square bg-red-400" key={game.game_id}>
               <CanvasCard id={game.game_id} />
             </div>
           ))}
@@ -71,7 +71,7 @@ const Games: React.FC = () => {
             Previous
           </button>
           <button
-            className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50"
+            className="bg-[#606c38] text-white px-3 py-1 rounded hover:bg-[#283618] focus:outline-none focus:ring focus:ring-blue-500 focus:ring-opacity-50"
             onClick={handleNextPage}
           >
             Next
