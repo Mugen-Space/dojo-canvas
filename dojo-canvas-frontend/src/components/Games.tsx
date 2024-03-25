@@ -52,9 +52,12 @@ const Games: React.FC = () => {
   return (
     <>
       {paginatedGames.length > 0 && (
-        <div className="canvas-grid py-4 grid grid-cols-auto sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+        <div className="canvas-grid py-4 grid grid-cols-auto sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
           {paginatedGames.map((game: any) => (
-            <div className="aspect-square bg-red-400" key={game.game_id}>
+            <div
+              className="flex items-center justify-center aspect-square bg-red-400"
+              key={game.game_id}
+            >
               <CanvasCard id={game.game_id} />
             </div>
           ))}

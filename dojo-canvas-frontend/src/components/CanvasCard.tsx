@@ -40,10 +40,10 @@ const CanvasCard = ({ id }: CanvasCardProps) => {
     [lockEntities, Lock]
   );
   return (
-    <div className="h-full">
-      <div className="bg-white h-full shadow-md rounded-xl  overflow-hidden text-black ">
-        <div onClick={handleProjectClick} className="p-4">
-          <p className="px-2 pb-2">
+    <div className="h-full w-full">
+      <div className="bg-white h-full w-full shadow-md rounded-xl  overflow-hidden text-black ">
+        <div onClick={handleProjectClick} className="p-4 ">
+          <p className="px-2 pb-1">
             <b>Canvas ID:</b> {id}
           </p>
           <Canvas gameId={id} n={10} canvasType="somethingj" />
