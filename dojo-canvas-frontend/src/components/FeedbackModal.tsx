@@ -7,7 +7,7 @@ const FeedbackModal: React.FC = () => {
 
   return (
     <div
-      className={`fixed top-0 left-0 w-full h-full bg-opacity-50 backdrop-blur-sm z-10 flex justify-center items-center`}
+      className={`fixed top-0 left-0 w-full h-full bg-opacity-30 backdrop-blur-sm z-50 bg-gray-800 flex justify-center items-center`}
       onClick={clearFeedback} // Dismiss on modal click
     >
       <div

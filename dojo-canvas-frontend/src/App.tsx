@@ -119,14 +119,14 @@ const App: React.FC = () => {
   return (
     <div className="w-screen min-h-screen">
       <Navbar username={username} />
-      <div className="flex justify-center w-full min-h-screen bg-fuchsia-400">
-        <div className="m-3 w-full">
+      <div className="flex justify-center pt-16 w-full min-h-screen bg-[#f6f6f6]">
+        <div className="px-6 py-3 w-full">
           <div>
             <button
-              className="create-game-button w-full py-2 px-4  bg-blue-500 text-white font-bold rounded-md hover:bg-blue-700"
+              className="create-game-button w-full py-2 px-4  bg-[#bc6c25] text-white font-bold rounded-md hover:bg-[#9a5213]"
               onClick={handleCreateGame}
             >
-              Create Game
+              Create New Canvas
             </button>
           </div>
           <Games />

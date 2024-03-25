@@ -53,7 +53,7 @@ const TileFront = ({
       {" "}
       <div
         onClick={handleClick}
-        className={`w-10 h-10  text-black border-black`}
+        className={`h-6 sm:h-10 md:h-7 lg:h-7 xl:h-8 2xl:h-10 aspect-square  text-black border-black`}
         style={{
           backgroundColor: color,
         }}
