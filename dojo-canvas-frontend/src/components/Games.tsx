@@ -48,14 +48,28 @@ const Games: React.FC = () => {
       setCurrentPage(currentPage - 1);
     }
   };
+  const adjustGamesPerPage = () => {
+    const windowWidth = window.innerWidth;
+    if (windowWidth <= 768) {
+      setGamesPerPage(4);
+    } else {
+      setGamesPerPage(8);
+    }
+  };
+  useEffect(() => {
+    const handleResize = () => adjustGamesPerPage();
+    window.addEventListener("resize", handleResize);
+    adjustGamesPerPage();
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
     <>
       {paginatedGames.length > 0 && (
-        <div className="canvas-grid py-4 grid grid-cols-auto sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
+        <div className="canvas-grid py-4 grid grid-cols-auto sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-4 gap-4">
           {paginatedGames.map((game: any) => (
             <div
-              className="flex items-center justify-center aspect-square bg-red-400"
+              className="flex items-center justify-center "
               key={game.game_id}
             >
               <CanvasCard id={game.game_id} />

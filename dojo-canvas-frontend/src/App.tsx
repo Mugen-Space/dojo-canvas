@@ -126,7 +126,7 @@ const App: React.FC = () => {
               className="create-game-button w-full py-2 px-4  bg-[#bc6c25] text-white font-bold rounded-md hover:bg-[#9a5213]"
               onClick={handleCreateGame}
             >
-              Create Game
+              Create New Canvas
             </button>
           </div>
           <Games />
